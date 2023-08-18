@@ -29,9 +29,9 @@ jobs:
           aws-region: us-east-1
 
       - name: Update Kube Configure
-        uses: kodermax/kubectl-aws-eks@master
         env:
            KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG }} 
+        run: aws eks update-kubeconfig --region us-east-1 --name mycluster   
            
  
 
