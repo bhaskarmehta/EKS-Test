@@ -29,10 +29,10 @@ jobs:
           aws-region: us-east-1
 
       - name: Update Kube Configure
-        run: |
-          mkdir -p $HOME/.kube
-          echo "$KUBE_CONFIG_DATA" | base64 -d > $HOME/.kube/config
-          aws eks update-kubeconfig --region us-east-1 --name mycluster
+        uses: kodermax/kubectl-aws-eks@master
+        env:
+           KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG }} 
+           
  
 
       - name: Deploy to EKS
