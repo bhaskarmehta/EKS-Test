@@ -15,7 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo 
-        uses: actions/checkout@v3      
+        uses: actions/checkout@v3  
+
+      - name: Install AWS CLI
+        uses: aws/install-cli@v1
 
       - name: Install Kubectl
         uses: azure/setup-kubectl@v3
@@ -33,17 +36,17 @@ jobs:
           #aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Create S3 Bucket
-        run: |
-          # Change 'my-unique-bucket-name' to your desired bucket name
-          aws s3api create-bucket --bucket my-unique-bucket-namedhefcbchds --region us-east-1
-          echo "Bucket created Successfully"
+      # - name: Create S3 Bucket
+      #   run: |
+      #     # Change 'my-unique-bucket-name' to your desired bucket name
+      #     aws s3api create-bucket --bucket my-unique-bucket-namedhefcbchds --region us-east-1
+      #     echo "Bucket created Successfully"
 
-      #- name: Update KubeConfig
-       # run: | 
-       #        mkdir -p $HOME/.kube
-        ##       echo "$KUBE_CONFIG_DATA" | base64 -d > $HOME/.kube/config
-        #       aws eks update-kubeconfig --region us-east-1 --name mycluster 
+      - name: Update KubeConfig
+        run: | 
+              mkdir -p $HOME/.kube
+              echo "$KUBE_CONFIG_DATA" | base64 -d > $HOME/.kube/config
+              aws eks update-kubeconfig --region us-east-1 --name mycluster 
         
-      #- name: Deploy to EKS
-      #  run: kubectl apply -f Deployments/
+      - name: Deploy to EKS
+        run: kubectl apply -f Deployments/
