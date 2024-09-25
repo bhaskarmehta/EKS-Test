@@ -2,6 +2,7 @@ kind: Pod
 apiVersion: v1
 metadata:
    name: testpod
+   namespace: test
 spec:
    containers:
        - name: nginx
